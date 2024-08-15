@@ -54,7 +54,7 @@ function App() {
                     element: <Post />,
                 },
                 {
-                    path: "/tag",
+                    path: "/tag/:tagName",
                     element: <Tag />,
                 },
                 {

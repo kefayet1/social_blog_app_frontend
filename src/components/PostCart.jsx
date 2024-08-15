@@ -52,6 +52,7 @@ const PostCart = forwardRef((props, ref) => {
                             {props.post.tags.split(",").map((tag, index) => (
                                 <Link
                                     key={index}
+                                    to={`tag/${tag}`}
                                     className="p-2 rounded-md hover:bg-slate-100 hover:shadow-border-hover"
                                 >
                                     #{tag}
