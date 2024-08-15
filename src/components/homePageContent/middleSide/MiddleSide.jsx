@@ -35,6 +35,7 @@ const MiddleSide = () => {
     }
   }, [currentPage]);
 
+  //when user in tag page this function will for to fetch user selected tag post
   useEffect(() => {
     if (location.pathname.split("/")[1] === "tag") {
         console.log(tagName,"hello tag")

@@ -170,7 +170,7 @@ function PostMiddle({ postId, sendToLeft }) {
                         post?.tags
                             ?.split(",")
                             .map((tag, index) => (
-                                <Link key={index}>#{tag}</Link>
+                                <Link to={`/tag/${tag}`} key={index}>#{tag}</Link>
                             ))
                     )}
                 </div>
