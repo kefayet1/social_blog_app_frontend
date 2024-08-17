@@ -20,7 +20,7 @@ const Tag = () => {
   useEffect(() => {
     const fetchTagDetails = async () => {
       try {
-        const response = await fetch(BaseUrl + "get_tag_details", {
+        const response = await fetch(BaseUrl + "get_tag_details_without_auth", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -37,8 +37,38 @@ const Tag = () => {
         console.log(error);
       }
     };
-    fetchTagDetails();
+
+    const fetchTagDetailWithAuth = async () => {
+      try {
+        const response = await fetch(BaseUrl + "get_tag_details", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            tag_name: tagName,
+            token: JSON.parse(localStorage.getItem("loginInfo")).token,
+          }),
+        });
+
+        const data = await response.json();
+        console.log(data, "fetchTagDetails");
+        setTagDetails(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (localStorage.getItem("loginInfo") !== "") {
+      fetchTagDetailWithAuth();
+    } else {
+      fetchTagDetails();
+    }
   }, []);
+
+  
+
+  console.log(tagDetails, "follow tag");
 
   return (
     <Suspense
@@ -64,12 +94,18 @@ const Tag = () => {
                 </div>
               </div>
               <div className="right">
-                {tagDetails.is_follow !== true ? (
-                  <button className="p-2 font-semibold rounded-md bg-blue-700 text-white text-base">
+                {tagDetails.is_follow !== 1 ? (
+                  <button
+                    className="p-2 font-semibold rounded-md bg-blue-700 text-white text-base"
+                   
+                  >
                     Follow
                   </button>
                 ) : (
-                  <button className="p-2 font-semibold rounded-md border border-black text-base">
+                  <button
+                    className="p-2 font-semibold rounded-md border border-black text-base"
+                 
+                  >
                     Following
                   </button>
                 )}
