@@ -66,9 +66,31 @@ const Tag = () => {
     }
   }, []);
 
-  
+  // this handler function will use for follow and unfollow tag
+  const handleFollowTag = async (id) => {
+    const response = await fetch(BaseUrl + "follow_And_Unfollow_Tag", {
+      method: "POST",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({
+        token: JSON.parse(localStorage.getItem("loginInfo")).token,
+        tag_id: id
+      })
+    });
+    const data = await response.json();
 
-  console.log(tagDetails, "follow tag");
+    if(data.status === "success"){
+      setTagDetails((prevData) => {
+        return {
+          ...prevData,
+          is_follow: prevData.is_follow === 1 ? 0 : 1,
+        };
+      });
+    }
+    
+  };
+
 
   return (
     <Suspense
@@ -97,14 +119,14 @@ const Tag = () => {
                 {tagDetails.is_follow !== 1 ? (
                   <button
                     className="p-2 font-semibold rounded-md bg-blue-700 text-white text-base"
-                   
+                    onClick={()=> handleFollowTag(tagDetails.id)}
                   >
                     Follow
                   </button>
                 ) : (
                   <button
                     className="p-2 font-semibold rounded-md border border-black text-base"
-                 
+                    onClick={()=> handleFollowTag(tagDetails.id)}
                   >
                     Following
                   </button>
