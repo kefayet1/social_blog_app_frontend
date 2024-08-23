@@ -63,7 +63,7 @@ const PostForm = ({ editData, hideForm }) => {
             const response = await fetch("http://127.0.0.1:8000/api/get_tags", {
                 method: "post",
                 headers: {
-                    Content_Type: "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ token: JSON.parse(login).token }),
             });
@@ -451,7 +451,7 @@ const PostForm = ({ editData, hideForm }) => {
                             </h6>
                             <div className="flex h-[300px] overflow-hidden  align-center justify-center flex-wrap relative inline-block">
                                 <div className="">
-                                    {formData.thumbnail && (
+                                    {/* {formData.thumbnail && (
                                         <img
                                             type="file"
                                             src={getThumbnailUrl()}
@@ -459,7 +459,7 @@ const PostForm = ({ editData, hideForm }) => {
                                             accept="image/*"
                                             className="h-1/3 w-full object-cover"
                                         />
-                                    )}
+                                    )} */}
                                     <div className="w-full lg:w-12/12 px-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                         <div className="w-full mb-3 flex justify-center align-center ">
                                             <Button

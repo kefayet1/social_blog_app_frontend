@@ -20,6 +20,8 @@ import BaseUrl from "../../../BaseUrl";
 
 const LeftSideBar = () => {
   const [followingTags, setFollowingTags] = useState([]);
+
+  //in this function user can on home. which tag user is following
   useEffect(() => {
     const fetchFollowingTags = async () => {
       const response = await fetch(BaseUrl + "get_following_tags", {

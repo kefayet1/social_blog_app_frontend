@@ -47,9 +47,9 @@ const NavBar = () => {
                         <div className="rightSide md:w-3/12">
                             <div className="rightSideItem flex items-center justify-end gap-2">
                                 <div className="createPost hidden md:block">
-                                    <button className="py-2 px-4 border border-black rounded-md font-bold">
+                                    <Link to={"/createPost"} className="py-2 px-4 border border-black rounded-md font-bold">
                                         Create Post
-                                    </button>
+                                    </Link>
                                 </div>
 
                                 <div className="createPost block md:hidden">

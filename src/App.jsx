@@ -18,6 +18,7 @@ import Post from "./pages/Post";
 import Tag from "./pages/Tag";
 import Test from "./pages/Test";
 import { CommentContextProvider } from "./context/CommentContext";
+import CreatePostForm from "./pages/CreatePostForm";
 
 function App() {
     const router = createBrowserRouter([
@@ -60,6 +61,10 @@ function App() {
                 {
                     path: "test",
                     element: <Test />,
+                },
+                {
+                    path: "createPost",
+                    element: <CreatePostForm />,
                 },
             ],
         },
