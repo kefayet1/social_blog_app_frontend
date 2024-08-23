@@ -27,6 +27,8 @@ const MenuBar = (props) => {
     const buttonClass = `text-xs px-2 py-1 m-[0.9px] lg:text-sm  lg:px-4 lg:pt-2 lg:py-2 lg:m-1 bg-blue-500 text-white font-semibold rounded-lg shadow-md
   hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 
   focus:ring-opacity-75 transition duration-200 uppercase`;
+  
+  const spellCheck = "Parse the HTML document to extract text content.Check the spelling of the extracted text,and replace with right spelling and give back the HTML without chancing any tag with right spelling. you have to give me only html without adding any text or tag after and before. don't add any star on wrongly spelled word";
 
     const activeClass = `bg-blue-700 hover:bg-blue-800`;
 
@@ -63,12 +65,21 @@ const MenuBar = (props) => {
 
     console.log(props.edit, "form body");
 
+    //PostLeft edit is true
     useEffect(() => {
         if (props.edit) {
             editor.commands.setContent(props.body);
         }
     }, [props.edit]);
 
+    // if gemini content is not empty
+    console.log(typeof props.geminiContent, "gemini")
+    useEffect(()=> {
+        if(props.geminiContent !== ""){
+            // console.log(props.geminiContent, "gemini")
+            editor.commands.setContent(props.geminiContent);
+        }
+    }, [props.geminiContent]);
     return (
         <>
             <button
@@ -298,7 +309,7 @@ const MenuBar = (props) => {
                 purple
             </button>
 
-            <button type="button" className={buttonClass}>
+            <button type="button" className={buttonClass} onClick={()=> props.handleGenerateText(spellCheck)}>
                 <FontAwesomeIcon icon={faSpellCheck} />A
                 <span className="lowercase">i</span>{" "}
                 <span className="lowercase">Spell Check</span>

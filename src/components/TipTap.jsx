@@ -21,7 +21,11 @@ const extensions = [
       keepMarks: true,
       keepAttributes: false,
     },
+    heading: {
+      levels: [1, 2, 3], // Configure levels directly within StarterKit
+    },
   }),
+  
 ]
 
 const content = "";
@@ -56,10 +60,10 @@ display: none;
 </blockquote>
 `
 const Tiptap = (props) => {
-  
+  console.log(props.geminiContent, "tiptap gemini")
   return (
-    <EditorProvider slotBefore={<MenuBar handleArticleChange={props.handleArticleChange}  body={props.body}
-    edit={props.edit}/>} extensions={extensions} content={content}></EditorProvider>
+    <EditorProvider slotBefore={<MenuBar handleArticleChange={props.handleArticleChange} handleGenerateText={props.handleGenerateText} geminiContent={props.geminiContent}  body={props.body}
+    edit={props.edit}/>} extensions={extensions} content={content} ></EditorProvider>
   )
 }
 

@@ -16,9 +16,11 @@ import dayjs from "dayjs";
 import Tiptap from "../components/TipTap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BaseUrl from "../BaseUrl";
 import { useNavigate } from "react-router-dom";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
 const top100Films = [
   { title: "The Shawshank Redemption", year: 1994 },
   { title: "The Godfather", year: 1972 },
@@ -157,6 +159,15 @@ const CreatePostForm = () => {
   });
   const navigate = useNavigate();
 
+  const [ geminiContent, setGeminiContent ] = useState("");
+      // Fetch your API_KEY
+      const API_KEY = "AIzaSyC1j47qYsuVEmXnSwu0BA20K1YY2EoEZOg";
+
+      // Access your API key (see "Set up your API key" above)
+      const genAI = new GoogleGenerativeAI(API_KEY);
+
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+
   // form input handler
   const handleInputForm = (e) => {
     if (e.target.name === "active") {
@@ -261,6 +272,28 @@ const CreatePostForm = () => {
       navigate("/");
     }
   };
+
+  // 
+  
+    const handleGenerateText = async (prompt) => {
+      try {
+        const result = await model.generateContent(`${prompt}, ${formData.article}`);
+        const response = await result.response;
+        const text = response.text();
+
+        setGeminiContent(text);
+        setFormData((prevData) => {
+          return {
+            ...prevData,
+            article : text
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    console.log(formData, "create gemini content");
   return (
     <>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -344,7 +377,8 @@ const CreatePostForm = () => {
                               <Tiptap
                                 handleArticleChange={handleArticleChange}
                                 body={formData.article}
-                                // edit={edit}
+                                geminiContent={geminiContent}
+                                handleGenerateText={handleGenerateText}
                               />
                             </div>
                           </div>
