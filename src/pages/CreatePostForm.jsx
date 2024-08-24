@@ -159,14 +159,15 @@ const CreatePostForm = () => {
   });
   const navigate = useNavigate();
 
-  const [ geminiContent, setGeminiContent ] = useState("");
-      // Fetch your API_KEY
-      const API_KEY = "AIzaSyC1j47qYsuVEmXnSwu0BA20K1YY2EoEZOg";
+  const [geminiContent, setGeminiContent] = useState("");
+  const [ tags, setTags ] = useState([]);
+  // Fetch your API_KEY
+  const API_KEY = "AIzaSyC1j47qYsuVEmXnSwu0BA20K1YY2EoEZOg";
 
-      // Access your API key (see "Set up your API key" above)
-      const genAI = new GoogleGenerativeAI(API_KEY);
+  // Access your API key (see "Set up your API key" above)
+  const genAI = new GoogleGenerativeAI(API_KEY);
 
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   // form input handler
   const handleInputForm = (e) => {
@@ -207,7 +208,7 @@ const CreatePostForm = () => {
     });
   };
 
-    // this handler will collect date
+  // this handler will collect date
   const setPublishDate = (e) => {
     return setFormData((prevData) => {
       return {
@@ -217,7 +218,7 @@ const CreatePostForm = () => {
     });
   };
 
-  // this handler will collect time 
+  // this handler will collect time
   const setPublishTime = (e) => {
     return setFormData((prevDate) => {
       return {
@@ -237,7 +238,7 @@ const CreatePostForm = () => {
     });
   };
 
-  // this handler will collect image 
+  // this handler will collect image
   const handleImage = (e) => {
     return setFormData((prevData) => {
       return {
@@ -268,32 +269,54 @@ const CreatePostForm = () => {
     });
     const data = await response.json();
     if (data.status === "success") {
-      <Snackbar open={open} autoHideDuration={6000} message={data.message} />
+      <Snackbar open={open} autoHideDuration={6000} message={data.message} />;
       navigate("/");
     }
   };
 
-  // 
-  
-    const handleGenerateText = async (prompt) => {
-      try {
-        const result = await model.generateContent(`${prompt}, ${formData.article}`);
-        const response = await result.response;
-        const text = response.text();
+  //this fun will handle gemini related functionality
+  const handleGenerateText = async (prompt) => {
+    try {
+      const result = await model.generateContent(
+        `${prompt}, ${formData.article}`
+      );
+      const response = await result.response;
+      const text = response.text();
 
-        setGeminiContent(text);
-        setFormData((prevData) => {
-          return {
-            ...prevData,
-            article : text
-          }
-        });
-      } catch (error) {
-        console.error(error);
-      }
+      setGeminiContent(text);
+      setFormData((prevData) => {
+        return {
+          ...prevData,
+          article: text,
+        };
+      });
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    console.log(formData, "create gemini content");
+  // fetching tags from serve for tags input selector
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const response = await fetch(BaseUrl + "get_tags", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: JSON.parse(localStorage.getItem("loginInfo")).token,
+          }),
+        });
+        const data = await response.json();
+        setTags(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchTags();
+  }, []);
   return (
     <>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -332,7 +355,7 @@ const CreatePostForm = () => {
                         <Autocomplete
                           multiple
                           id="tags-standard"
-                          options={top100Films}
+                          options={tags}
                           getOptionLabel={(option) => option.title}
                           onChange={handleInputForm}
                           name="tags"
