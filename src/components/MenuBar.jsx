@@ -318,10 +318,10 @@ const MenuBar = (props) => {
             <button type="button" className={buttonClass}>
                 <FontAwesomeIcon icon={faSpellCheck} />A
                 <span className="lowercase">i</span>{" "}
-                <span className="lowercase">Upscale Text</span>
+                <span className="lowercase" onClick={()=> props.handleGenerateText("I’ve written a portion of a blog post, you have to enhance the text quality using my blog post written tone. you don't have to use mark where you have enhance the text")}>Upscale Text</span>
             </button>
 
-            <button type="button" className={buttonClass}>
+            <button type="button" className={buttonClass} onClick={()=> props.handleGenerateText("I’ve written a portion of a blog post, you have to complete the post using my written tone.give me with beautiful html structure .you don't have to use any mark where you have enhance the text")}>
                 <FontAwesomeIcon icon={faSpellCheck} />A
                 <span className="lowercase">i</span>{" "}
                 <span className="lowercase">Generate Text</span>
