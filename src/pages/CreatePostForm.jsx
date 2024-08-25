@@ -419,7 +419,7 @@ const CreatePostForm = () => {
                                 type="file"
                                 src={URL.createObjectURL(formData.thumbnail)}
                                 alt=""
-                                // accept="image/*"
+                                accept="image/*"
                                 className="h-1/3 w-full object-cover"
                               />
                             )}
