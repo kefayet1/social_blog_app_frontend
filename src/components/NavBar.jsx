@@ -1,10 +1,14 @@
 import { faBars, faBell, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import Notification from "./Notification";
+import { useState } from "react";
 const NavBar = () => {
+    const [ showNotification, setShowNotification] = useState(true);
   return (
     <div className="border-b">
-            <nav className="lg:w-[70%] w-full m-auto py-2">
+            <nav className="lg:w-[70%] w-full m-auto py-2 ">
+                <Notification showNotification={showNotification} setShowNotification={setShowNotification}/>
                 <div className="container ">
                     <div className="nav_item flex items-center justify-between md:justify-start">
                         <div className="logoIcon flex items-center">
@@ -16,7 +20,7 @@ const NavBar = () => {
                             />
                         </Link>
                         </div>
-                        <div className="leftSide md:w-8/12 md:ml-2">
+                        <div className="leftSide md:w-8/12 md:ml-2 ">
                             <form className="hidden md:block">
                                 <label
                                     htmlFor="default-search"
@@ -25,7 +29,7 @@ const NavBar = () => {
                                     Search
                                 </label>
                                 <div className="relative">
-                                    <div className="group ">
+                                    <div className="group">
                                         <svg
                                             className="icon"
                                             aria-hidden="true"
@@ -56,7 +60,7 @@ const NavBar = () => {
                                     <FontAwesomeIcon icon={faMagnifyingGlass} size="xl" color="black"/>
                                 </div>
 
-                                <div className="notification">
+                                <div className="notification" onClick={()=> setShowNotification(!showNotification)}>
                                     <FontAwesomeIcon size="xl" icon={faBell} />
                                 </div>
                                 <div className="profile">

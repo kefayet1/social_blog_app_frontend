@@ -19,8 +19,8 @@ import Tag from "./pages/Tag";
 import Test from "./pages/Test";
 import { CommentContextProvider } from "./context/CommentContext";
 import CreatePostForm from "./pages/CreatePostForm";
-import Profile from "./components/Profile";
 import CreateProfile from "./pages/CreateProfile";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
     const router = createBrowserRouter([
@@ -70,7 +70,7 @@ function App() {
                 },
                 {
                     path: "profile/:id",
-                    element: <Profile/>
+                    element: <UserProfile/>
                 },
                 {
                     path: "create/profile",

@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import BaseUrl from '../BaseUrl';
 
 const Profile = () => {
+   
   return (
     <div className="profile rounded-md bg-white p-4 lg:p-4 mb-5">
         <div className="top mb-3">

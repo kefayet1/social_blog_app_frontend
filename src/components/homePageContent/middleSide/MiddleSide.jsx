@@ -9,10 +9,67 @@ const MiddleSide = () => {
   const [isLoading, setLoading] = useState(false);
   const lastPostRef = useRef(null);
   const location = useLocation();
-  const { tagName } = useParams();
+  const { tagName, id } = useParams();
+  const [currentUrl, setCurrentUrl] = useState(location.pathname.split("/")[1]);
 
   useEffect(() => {
-    if (location.pathname.split("/")[1] !== "tag") {
+    //when user in tag page this function will for fetch user selected tag post
+    if (currentUrl === "tag") {
+      setLoading(true);
+      const fetchTagPost = async () => {
+        const response = await fetch(
+          BaseUrl + `get_post_by_tag_name?page=${currentPage}`,
+          {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              tag_name: tagName,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        console.log(data, "tag post");
+        if (currentPage === 1) {
+          setPosts([...data.data]);
+        } else {
+          setPosts((prevData) => [...prevData, ...data.data]);
+        }
+        setLoading(false);
+      };
+      fetchTagPost();
+
+    } // if current page is profile this fun will fetch profile owner post
+    else if (currentUrl === "profile") {
+      setLoading(true);
+      const fetchUserPost = async () => {
+        const response = await fetch(
+          BaseUrl + `get_post_by_user_id?page=${currentPage}`,
+          {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              id: id,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        console.log(data, "tag post");
+        if (currentPage === 1) {
+          setPosts([...data.data]);
+        } else {
+          setPosts((prevData) => [...prevData, ...data.data]);
+        }
+        setLoading(false);
+      };
+      fetchUserPost();
+    } // this will fetch home page post
+     else {
       setLoading(true);
       const fetchHomePost = async () => {
         const response = await fetch(
@@ -35,39 +92,7 @@ const MiddleSide = () => {
     }
   }, [currentPage]);
 
-  //when user in tag page this function will for to fetch user selected tag post
-  useEffect(() => {
-    if (location.pathname.split("/")[1] === "tag") {
-        console.log(tagName,"hello tag")
-      setLoading(true);
-      const fetchTagPost = async () => {
-        const response = await fetch(
-          BaseUrl + `get_post_by_tag_name?page=${currentPage}`,
-          {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                tag_name: tagName
-              }),
-          }
-        );
-
-        const data = await response.json();
-        console.log(data, "tag post")
-        if (currentPage === 1) {
-          setPosts([...data.data]);
-        } else {
-          setPosts((prevData) => [...prevData, ...data.data]);
-        }
-        setLoading(false);
-      };
-      fetchTagPost();
-    }
-  }, [currentPage]);
-
-
+  // when user cross more then 9 post this useEffect will to increase the page number
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -87,10 +112,12 @@ const MiddleSide = () => {
     return () => observer.disconnect();
   }, [isLoading, lastPostRef]);
 
-  console.log(lastPostRef.current);
-
+  console.log(currentUrl, "profile url");
   return (
-    <div className="">
+    <div
+    // when route on profile page
+      className={`${currentUrl === "profile" ? "lg:w-[80%] lg:mx-auto" : ""}`}
+    >
       <div className="top flex justify-between ml-3 mb-4">
         <div className="left flex items-center gap-4  text-xl font-thin">
           <button>Relevant</button>
