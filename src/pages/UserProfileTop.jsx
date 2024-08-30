@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 
 const UserProfileTop = () => {
   const { id } = useParams();
-  const [ profileDetails, setProfileDetails ] = useState({});
+  const [profileDetails, setProfileDetails] = useState({});
 
   useEffect(() => {
     const fetchProfileDetails = async () => {
@@ -21,7 +21,7 @@ const UserProfileTop = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+      console.log(data, "profile data");
       setProfileDetails(data.data);
     };
 
@@ -30,20 +30,26 @@ const UserProfileTop = () => {
   console.log(BaseUrl);
   return (
     <div className="py-10 px-5 md:px-20  bg-white">
+      <div className="div flex justify-end">
+        <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
+          Archive
+        </button>
+        <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
+          Follow
+        </button>
+      </div>
       <div className="profile_top w-full h-[100%] flex flex-col gap-3 items-center">
         <div className="profile_image">
           <img
-            // src="https://images.unsplash.com/photo-1530834395125-2a7eb8848ac0?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            src={BaseUrl.slice(0,-4)+profileDetails.profile_image}
+            src={profileDetails.profile_image}
+            // src={BaseUrl.slice(0, -4) + profileDetails.profile_image}
             alt=""
             className="w-[100px] h-[100px] object-center rounded-full"
           />
         </div>
         <div className="profile_details flex flex-col items-center">
           <h2 className="text-center text-2xl mb-2">{profileDetails?.name}</h2>
-          <p className="text-base mb-6">
-            {profileDetails?.bio}
-          </p>
+          <p className="text-base mb-6">{profileDetails?.bio}</p>
         </div>
       </div>
 
@@ -54,7 +60,9 @@ const UserProfileTop = () => {
           </div>
 
           <div className="joinedDate flex gap-2">
-            <FaBirthdayCake size={20} />Joined on<p>{dayjs(profileDetails?.created_at).format("MMM D, YYYY")}</p>
+            <FaBirthdayCake size={20} />
+            Joined on
+            <p>{dayjs(profileDetails?.created_at).format("MMM D, YYYY")}</p>
           </div>
 
           <div className="links flex gap-2">
@@ -63,20 +71,18 @@ const UserProfileTop = () => {
         </div>
 
         <div className="education_work flex justify-evenly gap-1 pt-5">
-          {profileDetails?.eduction && (
+          {profileDetails?.education && (
             <div className="education text-center ">
-            <h4 className="font-semibold text-[#929292fa]">Education</h4>
-            <p className="black">
-              {profileDetails?.eduction}
-            </p>
-          </div>
+              <h4 className="font-semibold text-[#929292fa]">Education</h4>
+              <p className="black">{profileDetails?.education}</p>
+            </div>
           )}
 
           {profileDetails?.work && (
             <div className="work text-center">
-            <h4 className="font-semibold text-[#929292fa]">Work</h4>
-            <p className="black">{profileDetails.work}</p>
-          </div>
+              <h4 className="font-semibold text-[#929292fa]">Work</h4>
+              <p className="black">{profileDetails.work}</p>
+            </div>
           )}
         </div>
       </div>

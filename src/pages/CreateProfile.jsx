@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import BaseUrl from "../BaseUrl";
-import { json } from "react-router-dom";
 
 const CreateProfile = () => {
+  const newFormData = new FormData();
   const [formData, setFormData] = useState({
     bio: "",
     education: "",
@@ -16,36 +16,34 @@ const CreateProfile = () => {
   });
 
   const handleInput = (e) => {
-    if (e.target.name === "profileImage") {
-      return setFormData((prevData) => {
-        return {
-          ...prevData,
-          profile_image: e.target.files[0],
-        };
-      });
-    }
-    return setFormData((prevData) => {
-      return {
+    if (e.target.name === "profile_image") {
+      setFormData((prevData) => ({
+        ...prevData,
+        profile_image: e.target.files[0],
+      }));
+    } else {
+      setFormData((prevData) => ({
         ...prevData,
         [e.target.name]: e.target.value,
-      };
-    });
+      }));
+    }
   };
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-    const newFormData = new FormData();
     newFormData.append("bio", formData.bio);
     newFormData.append("education", formData.education);
     newFormData.append("website_url", formData.website_url);
     newFormData.append("work", formData.work);
     newFormData.append("location", formData.location);
     newFormData.append("profile_image", formData.profile_image);
-    newFormData.append(
-      "token",
-      JSON.parse(localStorage.getItem("loginInfo")).token
-    );
+    newFormData.append("token", JSON.parse(localStorage.getItem("loginInfo")).token);
+
     try {
+      for (let pair of newFormData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+
       const response = await fetch(BaseUrl + "create_profile", {
         method: "POST",
         body: newFormData,
@@ -61,7 +59,7 @@ const CreateProfile = () => {
         profile_image: "",
       });
     } catch (error) {
-      console.log(error);
+      console.error('Error:', error);
     }
   };
 
@@ -167,21 +165,21 @@ const CreateProfile = () => {
             <div className="flex h-[200px] overflow-hidden  align-center justify-center flex-wrap relative inline-block">
               <div className="">
                 {formData.profile_image && (
-                              <img
-                                type="file"
-                                src={URL.createObjectURL(formData.profile_image)}
-                                alt=""
-                                accept="image/*"
-                                className="h-1/3 w-full object-cover"
-                              />
-                            )}
+                  <img
+                    type="file"
+                    src={URL.createObjectURL(formData.profile_image)}
+                    alt=""
+                    accept="image/*"
+                    className="h-1/3 w-full object-cover"
+                  />
+                )}
                 <div className="px-4 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <div className="mb-3 flex justify-center align-center ">
                     <Button
                       component="label"
                       role={undefined}
                       variant="contained"
-                      tabIndex={-1}
+                      // tabIndex={-1}
                       startIcon={<FontAwesomeIcon icon={faFile} />}
                     >
                       Upload File
