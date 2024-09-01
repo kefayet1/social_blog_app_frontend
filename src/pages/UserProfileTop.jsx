@@ -17,7 +17,10 @@ const UserProfileTop = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: id }),
+        body: JSON.stringify({
+          id: id,
+          token: JSON.parse(localStorage.getItem("loginInfo")).token,
+        }),
       });
 
       const data = await response.json();
@@ -27,17 +30,50 @@ const UserProfileTop = () => {
 
     fetchProfileDetails();
   }, []);
+
+  const handleFollowUser = async () => {
+    try {
+      const response = await fetch(BaseUrl + "follow_unFollow_user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          following_user_id: profileDetails.user_id,
+          token: JSON.parse(localStorage.getItem("loginInfo")).token,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.status === "success") {
+        setProfileDetails((prevData) => {
+          return {
+            ...prevData,
+            is_follow: !prevData.is_follow,
+          };
+        });
+      }
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   console.log(BaseUrl);
   return (
     <div className="py-10 px-5 md:px-20  bg-white">
-      <div className="div flex justify-end">
-        <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
-          Archive
-        </button>
-        <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
-          Follow
-        </button>
-      </div>
+      {JSON.parse(localStorage.getItem("loginInfo")).id !== profileDetails.user_id && (
+        <div className="div flex justify-end" onClick={handleFollowUser}>
+          {profileDetails.is_follow ? (
+            <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
+              Archive
+            </button>
+          ) : (
+            <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">
+              Follow
+            </button>
+          )}
+        </div>
+      )}
       <div className="profile_top w-full h-[100%] flex flex-col gap-3 items-center">
         <div className="profile_image">
           <img
