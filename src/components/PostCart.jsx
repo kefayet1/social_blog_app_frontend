@@ -49,7 +49,7 @@ const PostCart = forwardRef((props, ref) => {
             <h2 className="text-3xl font-bold">{props.post.title}</h2>
           </div>
           <div className="tags flex mb-4 text-[#31343be8]">
-            {props.post.tags.split(",").map((tag, index) => (
+            {props.post.tags?.split(",").map((tag, index) => (
               <Link
                 key={index}
                 to={`tag/${tag}`}

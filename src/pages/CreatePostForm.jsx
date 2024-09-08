@@ -190,16 +190,6 @@ const CreatePostForm = () => {
       });
     }
 
-    // if(e.target.thumbnail === "thumbnail"){
-    //   console.log(e, "thumbnail");
-    //   return setFormData((prevData) => {
-    //     return {
-    //       ...prevData,
-    //       thumbnail: e,
-    //     };
-    //   });
-    // }
-
     return setFormData((prevData) => {
       return {
         ...prevData,
@@ -257,17 +247,21 @@ const CreatePostForm = () => {
     newFormData.append("tags", JSON.stringify(formData.tags));
     newFormData.append("published_at", formData.date);
     newFormData.append("body", formData.article);
-    newFormData.append("thumbnail", formData.thumbnail); // Assuming this is a file
+    newFormData.append("thumbnail", formData.thumbnail); 
     newFormData.append(
       "token",
       JSON.parse(localStorage.getItem("loginInfo")).token
     );
 
+    newFormData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
     const response = await fetch(BaseUrl + "create_post", {
       method: "POST",
       body: newFormData,
     });
     const data = await response.json();
+    console.log(data);
     if (data.status === "success") {
       <Snackbar open={open} autoHideDuration={6000} message={data.message} />;
       navigate("/");
@@ -317,6 +311,8 @@ const CreatePostForm = () => {
 
     fetchTags();
   }, []);
+
+  console.log(formData);
   return (
     <>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">

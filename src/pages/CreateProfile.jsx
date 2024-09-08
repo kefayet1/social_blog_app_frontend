@@ -40,10 +40,6 @@ const CreateProfile = () => {
     newFormData.append("token", JSON.parse(localStorage.getItem("loginInfo")).token);
 
     try {
-      for (let pair of newFormData.entries()) {
-        console.log(`${pair[0]}: ${pair[1]}`);
-      }
-
       const response = await fetch(BaseUrl + "create_profile", {
         method: "POST",
         body: newFormData,
@@ -62,6 +58,8 @@ const CreateProfile = () => {
       console.error('Error:', error);
     }
   };
+
+  console.log(formData, "formData");
 
   return (
     <div className="bg-indigo-100 flex justify-center items-center">

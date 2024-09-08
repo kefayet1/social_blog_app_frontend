@@ -7,17 +7,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Notification from "./Notification";
 import { useState } from "react";
+import ProfileDropDownMenu from "./ProfileDropDownMenu";
 const NavBar = () => {
   const [showNotification, setShowNotification] = useState(true);
+  const [countUnSeenNotifi, setCountUnSeenNotifi] = useState(0);
+  const [ showMenu, setShowMenu ] = useState(0);
+  console.log(countUnSeenNotifi, "countUnSeenNotifi");
   return (
     <div className="border-b">
-      <nav className="lg:w-[70%] w-full m-auto py-2 ">
+      <nav className="lg:w-[70%] w-full m-auto py-2 relative">
+        {/* profile menu */}
+        <ProfileDropDownMenu/>
+        {/* notificaiton */}
         <Notification
           showNotification={showNotification}
           setShowNotification={setShowNotification}
+          setCountUnSeenNotifi={setCountUnSeenNotifi}
         />
         <div className="container ">
-          <div className="nav_item flex items-center justify-between md:justify-start">
+          <div className="nav_item flex items-center justify-between ">
             <div className="logoIcon flex items-center">
               <FontAwesomeIcon
                 className="block md:hidden"
@@ -61,7 +69,7 @@ const NavBar = () => {
               </form>
             </div>
             {JSON.parse(localStorage.getItem("loginInfo")) ? (
-              <div className="rightSide md:w-3/12">
+              <div className="rightSide md:w-5/12">
                 <div className="rightSideItem flex items-center justify-end gap-2">
                   <div className="createPost hidden md:block">
                     <Link
@@ -84,11 +92,31 @@ const NavBar = () => {
                     className="notification"
                     onClick={() => setShowNotification(!showNotification)}
                   >
-                    <FontAwesomeIcon size="xl" icon={faBell} />
+                    <div className="relative mt-2">
+                      <div className="absolute left-0 top-0  bg-red-500 rounded-full">
+                        <span className="text-sm text-white p-1">
+                          {countUnSeenNotifi}
+                        </span>
+                      </div>
+
+                      <div className="p-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          className="text-gray-600 w-6 h-6"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                   <div className="profile">
                     <img
-                      src={JSON.parse(localStorage.getItem("loginInfo")).profile_image}
+                      src={
+                        JSON.parse(localStorage.getItem("loginInfo"))
+                          .profile_image
+                      }
                       alt=""
                       className="h-10 w-10 rounded-full"
                     />
@@ -98,11 +126,17 @@ const NavBar = () => {
             ) : (
               <div className="rightSide md:w-3/12">
                 <div className="rightSideItem flex items-center justify-end gap-2">
-                  <Link to={"/registration"} className="inline-flex items-center px-4 py-2 border-gray-300 border  text-sm font-medium rounded-md">
+                  <Link
+                    to={"/registration"}
+                    className="inline-flex items-center px-4 py-2 border-gray-300 border  text-sm font-medium rounded-md"
+                  >
                     Register
                   </Link>
 
-                  <Link className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md" to={"/login"}>
+                  <Link
+                    className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-md"
+                    to={"/login"}
+                  >
                     Login
                   </Link>
                 </div>
