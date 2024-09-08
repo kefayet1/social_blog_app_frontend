@@ -171,7 +171,7 @@ const LeftSideBar = () => {
                 key={tag.id}
                 className="hover:bg-purple-500 hover:bg-opacity-10 p-2 rounded text-base"
               >
-                <Link to={`tag/${tag.title}`}>#{tag.title}</Link>
+                <Link to={`/tag/${tag.title}`}>#{tag.title}</Link>
               </div>
             ))}
           </div>

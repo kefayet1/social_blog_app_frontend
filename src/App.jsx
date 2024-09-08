@@ -21,6 +21,8 @@ import { CommentContextProvider } from "./context/CommentContext";
 import CreatePostForm from "./pages/CreatePostForm";
 import CreateProfile from "./pages/CreateProfile";
 import UserProfile from "./pages/UserProfile";
+import Followers from "./pages/Followers";
+import Following from "./pages/Following";
 
 function App() {
     const router = createBrowserRouter([
@@ -75,6 +77,14 @@ function App() {
                 {
                     path: "create/profile",
                     element : <CreateProfile/>
+                },
+                {
+                    path: "/followers",
+                    element: <Followers/>
+                },
+                {
+                    path: "/following",
+                    element: <Following/>
                 }
             ],
         },

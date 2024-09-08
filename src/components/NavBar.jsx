@@ -11,13 +11,13 @@ import ProfileDropDownMenu from "./ProfileDropDownMenu";
 const NavBar = () => {
   const [showNotification, setShowNotification] = useState(true);
   const [countUnSeenNotifi, setCountUnSeenNotifi] = useState(0);
-  const [ showMenu, setShowMenu ] = useState(0);
-  console.log(countUnSeenNotifi, "countUnSeenNotifi");
+  const [ showMenu, setShowMenu ] = useState(false);
+
   return (
     <div className="border-b">
       <nav className="lg:w-[70%] w-full m-auto py-2 relative">
         {/* profile menu */}
-        <ProfileDropDownMenu/>
+        {showMenu && <ProfileDropDownMenu setShowMenu={setShowMenu} showMenu={setShowMenu}/>}
         {/* notificaiton */}
         <Notification
           showNotification={showNotification}
@@ -111,7 +111,7 @@ const NavBar = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="profile">
+                  <div className="profile" onClick={()=> setShowMenu(!showMenu)}>
                     <img
                       src={
                         JSON.parse(localStorage.getItem("loginInfo"))

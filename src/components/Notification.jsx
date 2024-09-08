@@ -6,13 +6,17 @@ import { Link } from "react-router-dom";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
-const Notification = ({ showNotification, setShowNotification, setCountUnSeenNotifi }) => {
+const Notification = ({
+  showNotification,
+  setShowNotification,
+  setCountUnSeenNotifi,
+}) => {
   const notificationRef = useRef(null);
   const [notification, setNotification] = useState([]);
   const [todayNotification, setTodayNotification] = useState([]);
   const [yesterdayNotification, setYesterDayNotification] = useState([]);
   const [otherDaysNotification, setOtherDaysNotification] = useState([]);
-  const [ count, setCount ] = useState(0);
+  const [count, setCount] = useState(0);
 
   const day = dayjs().format("YYYY-MM-DD");
   const yesterday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
@@ -31,21 +35,23 @@ const Notification = ({ showNotification, setShowNotification, setCountUnSeenNot
       setNotification(data);
 
       //lifting state up
-      setCountUnSeenNotifi(data.flat().filter(obj => !obj.enabled).length)
+      setCountUnSeenNotifi(data.flat().filter((obj) => !obj.enabled).length);
     };
     fetchNotification();
 
     const interval = setInterval(() => {
-      setCount(prev => prev + 1);
+      setCount((prev) => prev + 1);
     }, 3000);
 
-    return ()=> clearInterval(interval);
+    return () => clearInterval(interval);
   }, [count]);
-
 
   useEffect(() => {
     setTodayNotification(
-      notification.filter((notify) => notify.created_at.split(" ")[0] === day && notify.user_id === 3)
+      notification.filter(
+        (notify) =>
+          notify.created_at.split(" ")[0] === day && notify.user_id === 3
+      )
     );
     setYesterDayNotification(
       notification.filter(
@@ -60,8 +66,6 @@ const Notification = ({ showNotification, setShowNotification, setCountUnSeenNot
       )
     );
   }, [notification]);
-
-
 
   // //laravel echo
   // useEffect(() => {
@@ -152,49 +156,49 @@ const Notification = ({ showNotification, setShowNotification, setCountUnSeenNot
               </button>
             </div>
             {todayNotification?.reverse().map((notify) => (
-              <div
-                key={notify.id}
-                className="w-full p-3 mt-8 bg-white rounded flex"
-              >
-                <div
-                  tabIndex="0"
-                  aria-label="heart icon"
-                  role="img"
-                  className="focus:outline-none w-8 h-8 border rounded-full border-gray-200 flex items-center justify-center"
-                >
-                  <MdPostAdd size={20} className="text-blue-500" />
-                </div>
-                <div className="pl-3">
-                  <p
+              <Link key={notify.id} to={`post/${notify.post_id}`}>
+                <div className="w-full p-3 mt-8 bg-white rounded flex">
+                  <div
                     tabIndex="0"
-                    className="focus:outline-none text-sm leading-none"
+                    aria-label="heart icon"
+                    role="img"
+                    className="focus:outline-none w-8 h-8 border rounded-full border-gray-200 flex items-center justify-center"
                   >
-                    <span className="text-indigo-700">{notify.name}</span>{" "}
-                    <span>added new post</span>
-                    {notify?.tag_title !== "" && notify?.tag_id !== null ? (
-                      <span>
-                        {" "}
-                        on{" "}
-                        <Link
-                          className="text-black underline font-medium"
-                          to={`tag/${notify?.tag_title}`}
-                        >
-                          {notify?.tag_title}
-                        </Link>
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </p>
-                  <h4>{notify.title}</h4>
-                  <p
-                    tabIndex="0"
-                    className="focus:outline-none text-xs leading-3 pt-1 text-gray-500"
-                  >
-                    {dayjs().diff(dayjs(notify.created_at), "minute")} hours ago
-                  </p>
+                    <MdPostAdd size={20} className="text-blue-500" />
+                  </div>
+                  <div className="pl-3">
+                    <p
+                      tabIndex="0"
+                      className="focus:outline-none text-sm leading-none"
+                    >
+                      <span className="text-indigo-700">{notify.name}</span>{" "}
+                      <span>added new post</span>
+                      {notify?.tag_title !== "" && notify?.tag_id !== null ? (
+                        <span>
+                          {" "}
+                          on{" "}
+                          <Link
+                            className="text-black underline font-medium"
+                            to={`/tag/${notify?.tag_title}`}
+                          >
+                            {notify?.tag_title}
+                          </Link>
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </p>
+                    <h4>{notify.title}</h4>
+                    <p
+                      tabIndex="0"
+                      className="focus:outline-none text-xs leading-3 pt-1 text-gray-500"
+                    >
+                      {dayjs().diff(dayjs(notify.created_at), "minute")} hours
+                      ago
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
 
             {yesterdayNotification.length > 0 ? (
@@ -206,96 +210,100 @@ const Notification = ({ showNotification, setShowNotification, setCountUnSeenNot
               </h2>
             ) : null}
             {yesterdayNotification?.map((notify) => (
-              <div
-                key={notify.id}
-                className="w-full p-3 mt-8 bg-white rounded flex"
-              >
+              <Link key={notify.id} to={`post/${notify.post_id}`}>
                 <div
-                  tabIndex="0"
-                  aria-label="heart icon"
-                  role="img"
-                  className="focus:outline-none w-8 h-8 border rounded-full border-gray-200 flex items-center justify-center"
+                  key={notify.id}
+                  className="w-full p-3 mt-8 bg-white rounded flex"
                 >
-                  <MdPostAdd size={20} className="text-blue-500" />
-                </div>
-                <div className="pl-3">
-                  <p
+                  <div
                     tabIndex="0"
-                    className="focus:outline-none text-sm leading-none"
+                    aria-label="heart icon"
+                    role="img"
+                    className="focus:outline-none w-8 h-8 border rounded-full border-gray-200 flex items-center justify-center"
                   >
-                    <span className="text-indigo-700">{notify.name}</span>{" "}
-                    <span>added new post</span>
-                    {notify?.tag_title !== "" && notify?.tag_id !== null ? (
-                      <span>
-                        {" "}
-                        on{" "}
-                        <Link
-                          className="text-black underline font-medium"
-                          to={`tag/${notify?.tag_title}`}
-                        >
-                          {notify?.tag_title}
-                        </Link>
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </p>
-                  <h4>{notify.title}</h4>
-                  <p
-                    tabIndex="0"
-                    className="focus:outline-none text-xs leading-3 pt-1 text-gray-500"
-                  >
-                    {dayjs(notify.created_at).format("hh")} hours ago
-                  </p>
+                    <MdPostAdd size={20} className="text-blue-500" />
+                  </div>
+                  <div className="pl-3">
+                    <p
+                      tabIndex="0"
+                      className="focus:outline-none text-sm leading-none"
+                    >
+                      <span className="text-indigo-700">{notify.name}</span>{" "}
+                      <span>added new post</span>
+                      {notify?.tag_title !== "" && notify?.tag_id !== null ? (
+                        <span>
+                          {" "}
+                          on{" "}
+                          <Link
+                            className="text-black underline font-medium"
+                            to={`/tag/${notify?.tag_title}`}
+                          >
+                            {notify?.tag_title}
+                          </Link>
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </p>
+                    <h4>{notify.title}</h4>
+                    <p
+                      tabIndex="0"
+                      className="focus:outline-none text-xs leading-3 pt-1 text-gray-500"
+                    >
+                      {dayjs(notify.created_at).format("hh")} hours ago
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
 
             {otherDaysNotification?.map((notify) => (
-              <div
-                key={notify.id}
-                className="w-full p-3 mt-8 bg-white rounded flex"
-              >
+              <Link key={notify.id} to={`post/${notify.post_id}`}>
                 <div
-                  tabIndex="0"
-                  aria-label="heart icon"
-                  role="img"
-                  className="focus:outline-none w-8 h-8 border rounded-full border-gray-200 flex items-center justify-center"
+                  key={notify.id}
+                  className="w-full p-3 mt-8 bg-white rounded flex"
                 >
-                  <MdPostAdd size={20} className="text-blue-500" />
-                </div>
-                <div className="pl-3">
-                  <p
+                  <div
                     tabIndex="0"
-                    className="focus:outline-none text-sm leading-none"
+                    aria-label="heart icon"
+                    role="img"
+                    className="focus:outline-none w-8 h-8 border rounded-full border-gray-200 flex items-center justify-center"
                   >
-                    <span className="text-indigo-700">{notify.name}</span>{" "}
-                    <span>added new post</span>
-                    {notify?.tag_title !== "" && notify?.tag_id !== null ? (
-                      <span>
-                        {" "}
-                        on{" "}
-                        <Link
-                          className="text-black underline font-medium"
-                          to={`tag/${notify?.tag_title}`}
-                        >
-                          {notify?.tag_title}
-                        </Link>
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </p>
-                  <h4>{notify.title}</h4>
-                  <p
-                    tabIndex="0"
-                    className="focus:outline-none text-xs leading-3 pt-1 text-gray-500"
-                  >
-                    {dayjs(notify.created_at).format("DD/MM/YYYY")} at{" "}
-                    {dayjs(notify.created_at).format("h.ssa")}
-                  </p>
+                    <MdPostAdd size={20} className="text-blue-500" />
+                  </div>
+                  <div className="pl-3">
+                    <p
+                      tabIndex="0"
+                      className="focus:outline-none text-sm leading-none"
+                    >
+                      <span className="text-indigo-700">{notify.name}</span>{" "}
+                      <span>added new post</span>
+                      {notify?.tag_title !== "" && notify?.tag_id !== null ? (
+                        <span>
+                          {" "}
+                          on{" "}
+                          <Link
+                            className="text-black underline font-medium"
+                            to={`/tag/${notify?.tag_title}`}
+                          >
+                            {notify?.tag_title}
+                          </Link>
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </p>
+                    <h4>{notify.title}</h4>
+                    <p
+                      tabIndex="0"
+                      className="focus:outline-none text-xs leading-3 pt-1 text-gray-500"
+                    >
+                      {dayjs(notify.created_at).format("DD/MM/YYYY")} at{" "}
+                      {dayjs(notify.created_at).format("h.ssa")}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
             <div className="w-full p-3 mt-4 bg-white rounded flex">
               <div
@@ -332,52 +340,6 @@ const Notification = ({ showNotification, setShowNotification, setCountUnSeenNot
                   2 hours ago
                 </p>
               </div>
-            </div>
-            <div className="w-full p-3 mt-8 bg-green-100 rounded flex items-center">
-              <div
-                tabIndex="0"
-                aria-label="success icon"
-                role="img"
-                className="focus:outline-none w-8 h-8 border rounded-full border-green-200 flex flex-shrink-0 items-center justify-center"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6.66674 10.1147L12.7947 3.98599L13.7381 4.92866L6.66674 12L2.42407 7.75733L3.36674 6.81466L6.66674 10.1147Z"
-                    fill="#047857"
-                  />
-                </svg>
-              </div>
-              <div className="pl-3 w-full">
-                <div className="flex items-center justify-between">
-                  <p
-                    tabIndex="0"
-                    className="focus:outline-none text-sm leading-none text-green-700"
-                  >
-                    Design sprint completed
-                  </p>
-                  <p
-                    tabIndex="0"
-                    className="focus:outline-none focus:text-indigo-600 text-xs leading-3 underline cursor-pointer text-green-700"
-                  >
-                    View
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <hr className="w-full" />
-              <p
-                tabIndex="0"
-                className="focus:outline-none text-sm flex flex-shrink-0 leading-normal px-3 py-16 text-gray-500"
-              >
-                Thats it for now :)
-              </p>
             </div>
           </div>
         </div>
