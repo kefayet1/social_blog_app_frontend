@@ -23,6 +23,7 @@ import CreateProfile from "./pages/CreateProfile";
 import UserProfile from "./pages/UserProfile";
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
+import TagsPage from "./pages/TagsPage";
 
 function App() {
     const router = createBrowserRouter([
@@ -85,6 +86,10 @@ function App() {
                 {
                     path: "/following",
                     element: <Following/>
+                },
+                {
+                    path: "/tags",
+                    element: <TagsPage/>
                 }
             ],
         },

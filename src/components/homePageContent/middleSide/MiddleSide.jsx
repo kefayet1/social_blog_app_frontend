@@ -7,6 +7,7 @@ const MiddleSide = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setLoading] = useState(false);
+  const [fetchPostOptions, setFetchPostOptions] = useState("latest");
   const lastPostRef = useRef(null);
   const location = useLocation();
   const { tagName, id } = useParams();
@@ -40,7 +41,6 @@ const MiddleSide = () => {
         setLoading(false);
       };
       fetchTagPost();
-
     } // if current page is profile this fun will fetch profile owner post
     else if (currentUrl === "profile") {
       setLoading(true);
@@ -69,28 +69,55 @@ const MiddleSide = () => {
       };
       fetchUserPost();
     } // this will fetch home page post
-     else {
+    else {
       setLoading(true);
-      const fetchHomePost = async () => {
-        const response = await fetch(
-          BaseUrl + `noAuth_get_post?page=${currentPage}`,
-          {
-            method: "post",
+      if (fetchPostOptions === "relevant") {
+        const fetchHomePost = async () => {
+          const response = await fetch(
+            BaseUrl + `get_relevant_post?page=${currentPage}`,
+            {
+              method: "post",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                token: JSON.parse(localStorage.getItem('loginInfo')).token,
+              }),
+            }
+          );
+
+          const data = await response.json();
+
+          if (currentPage === 1) {
+            setPosts([...data.data]);
+          } else {
+            setPosts((prevData) => [...prevData, ...data.data]);
           }
-        );
+          setLoading(false);
+        };
+        fetchHomePost();
+      } else {
+        const fetchHomePost = async () => {
+          const response = await fetch(
+            BaseUrl + `noAuth_get_post?page=${currentPage}`,
+            {
+              method: "post",
+            }
+          );
 
-        const data = await response.json();
+          const data = await response.json();
 
-        if (currentPage === 1) {
-          setPosts([...data.data]);
-        } else {
-          setPosts((prevData) => [...prevData, ...data.data]);
-        }
-        setLoading(false);
-      };
-      fetchHomePost();
+          if (currentPage === 1) {
+            setPosts([...data.data]);
+          } else {
+            setPosts((prevData) => [...prevData, ...data.data]);
+          }
+          setLoading(false);
+        };
+        fetchHomePost();
+      }
     }
-  }, [currentPage]);
+  }, [currentPage, fetchPostOptions]);
 
   // when user cross more then 9 post this useEffect will to increase the page number
   useEffect(() => {
@@ -115,20 +142,45 @@ const MiddleSide = () => {
   console.log(currentUrl, "profile url");
   return (
     <div
-    // when route on profile page
+      // when route on profile page
       className={`${currentUrl === "profile" ? "lg:w-[80%] lg:mx-auto" : ""}`}
     >
       <div className="top flex justify-between ml-3 mb-4">
         <div className="left flex items-center gap-4  text-xl font-thin">
-          <button>Relevant</button>
-          <button>Latest</button>
-          <button className="text-black font-bold">Top</button>
+          <button
+            className={`${
+              fetchPostOptions === "latest" ? "text-black font-bold" : ""
+            }`}
+            onClick={() => {
+              setFetchPostOptions("latest")
+              setPosts([])
+              setCurrentPage(1)
+            }}
+          >
+            Latest
+          </button>
+          <button
+            className={`${
+              fetchPostOptions === "relevant" ? "text-black font-bold" : ""
+            }`}
+            onClick={() => setFetchPostOptions("relevant")}
+          >
+            Relevant
+          </button>
+          <button
+            className={`${
+              fetchPostOptions === "top" ? "text-black font-bold" : ""
+            }`}
+            onClick={() => setFetchPostOptions("top")}
+          >
+            Top
+          </button>
         </div>
         <div className="right flex items-center gap-4 text-base font-thin">
-          <button className="font-bold text-black">Week</button>
+          {/* <button className="font-bold text-black">Week</button>
           <button>Month</button>
           <button>Year</button>
-          <button>Infinity</button>
+          <button>Infinity</button> */}
         </div>
       </div>
       <div className="bottom flex flex-col gap-2">

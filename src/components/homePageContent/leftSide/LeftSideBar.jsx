@@ -69,7 +69,7 @@ const LeftSideBar = () => {
               className="text-[#4C3BCF]"
             />
           </div>
-          <Link to="/" className="text-base">
+          <Link to="/tags" className="text-base">
             #Tags
           </Link>
         </div>
