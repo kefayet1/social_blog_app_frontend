@@ -24,6 +24,7 @@ import UserProfile from "./pages/UserProfile";
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
 import TagsPage from "./pages/TagsPage";
+import SavePosts from "./pages/SavePosts";
 
 function App() {
     const router = createBrowserRouter([
@@ -90,6 +91,10 @@ function App() {
                 {
                     path: "/tags",
                     element: <TagsPage/>
+                },
+                {
+                    path: "/savePost",
+                    element: <SavePosts/>
                 }
             ],
         },
