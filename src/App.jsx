@@ -25,112 +25,125 @@ import Followers from "./pages/Followers";
 import Following from "./pages/Following";
 import TagsPage from "./pages/TagsPage";
 import SavePosts from "./pages/SavePosts";
+import { NavMenuContextProvider } from "./context/NavMenuContext";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfUse from "./pages/TermsOfUse";
 
 function App() {
-    const router = createBrowserRouter([
+  const router = createBrowserRouter([
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/registration",
+      element: <Registration />,
+    },
+    {
+      path: "/sentOtp",
+      element: <SentOtp />,
+    },
+    {
+      path: "/verifyOtp",
+      element: <VerifyOtp />,
+    },
+    {
+      path: "/resetPassword",
+      element: <ResetPassword />,
+    },
+    {
+      path: "/",
+      element: <Home />,
+      children: [
         {
-            path: "/login",
-            element: <Login />,
+          index: true,
+          element: <PageContent />,
         },
         {
-            path: "/registration",
-            element: <Registration />,
+          path: "/post/:id",
+          element: <Post />,
         },
         {
-            path: "/sentOtp",
-            element: <SentOtp />,
+          path: "/tag/:tagName",
+          element: <Tag />,
         },
         {
-            path: "/verifyOtp",
-            element: <VerifyOtp />,
+          path: "test",
+          element: <Test />,
         },
         {
-            path: "/resetPassword",
-            element: <ResetPassword />,
+          path: "createPost",
+          element: <CreatePostForm />,
         },
         {
-            path: "/",
-            element: <Home />,
-            children: [
-                {
-                    index: true,
-                    element: <PageContent />,
-                },
-                {
-                    path: "/post/:id",
-                    element: <Post />,
-                },
-                {
-                    path: "/tag/:tagName",
-                    element: <Tag />,
-                },
-                {
-                    path: "test",
-                    element: <Test />,
-                },
-                {
-                    path: "createPost",
-                    element: <CreatePostForm />,
-                },
-                {
-                    path: "profile/:id",
-                    element: <UserProfile/>
-                },
-                {
-                    path: "create/profile",
-                    element : <CreateProfile/>
-                },
-                {
-                    path: "/followers",
-                    element: <Followers/>
-                },
-                {
-                    path: "/following",
-                    element: <Following/>
-                },
-                {
-                    path: "/tags",
-                    element: <TagsPage/>
-                },
-                {
-                    path: "/savePost",
-                    element: <SavePosts/>
-                }
-            ],
+          path: "profile/:id",
+          element: <UserProfile />,
         },
         {
-            path: "/dashboard",
-            element: <DashboardLayout />,
-            children: [
-                {
-                    index: true,
-                    element: <Dashboard />,
-                },
-                {
-                    path: "categories",
-                    element: <Categories />,
-                },
-                {
-                    path: "posts",
-                    element: <Posts />,
-                },
-            ],
+          path: "create/profile",
+          element: <CreateProfile />,
         },
-    ]);
+        {
+          path: "/followers",
+          element: <Followers />,
+        },
+        {
+          path: "/following",
+          element: <Following />,
+        },
+        {
+          path: "/tags",
+          element: <TagsPage />,
+        },
+        {
+          path: "/savePost",
+          element: <SavePosts />,
+        },
+        {
+          path: "/privacyPolicy",
+          element: <PrivacyPolicy />,
+        },
+        {
+          path: "/termsOfUse",
+          element: <TermsOfUse />,
+        },
+      ],
+    },
+    {
+      path: "/dashboard",
+      element: <DashboardLayout />,
+      children: [
+        {
+          index: true,
+          element: <Dashboard />,
+        },
+        {
+          path: "categories",
+          element: <Categories />,
+        },
+        {
+          path: "posts",
+          element: <Posts />,
+        },
+      ],
+    },
+  ]);
 
-    return (
-        <div className="bg-[#F5F5F5]">
-            <CommentContextProvider>
-                <PostContextProvider>
-                    <AuthContextProvider>
-                        <CategoryContextProvider>
-                            <RouterProvider router={router} />
-                        </CategoryContextProvider>
-                    </AuthContextProvider>
-                </PostContextProvider>
-            </CommentContextProvider>
-        </div>
-    );
+  return (
+    <div className="bg-[#F5F5F5]">
+      <NavMenuContextProvider>
+        <CommentContextProvider>
+          <PostContextProvider>
+            <AuthContextProvider>
+              <CategoryContextProvider>
+                <RouterProvider router={router} />
+              </CategoryContextProvider>
+            </AuthContextProvider>
+          </PostContextProvider>
+        </CommentContextProvider>
+      </NavMenuContextProvider>
+    </div>
+  );
 }
 
 export default App;

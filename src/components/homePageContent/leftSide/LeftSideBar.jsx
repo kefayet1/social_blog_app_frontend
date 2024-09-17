@@ -18,7 +18,7 @@ import {
 import { useEffect, useState } from "react";
 import BaseUrl from "../../../BaseUrl";
 
-const LeftSideBar = () => {
+const LeftSideBar = ({showLeftMenu}) => {
   const [followingTags, setFollowingTags] = useState([]);
 
   //in this function user can on home. which tag user is following
@@ -44,7 +44,7 @@ const LeftSideBar = () => {
   }, []);
 
   return (
-    <div className="linkPage">
+    <div className={`linkPage ${showLeftMenu && "absolute bg-zinc-50 z-30"}`}>
       {/* All page link  */}
 
       <div className="links flex flex-col text-[#31343be8] mb-4">
@@ -73,32 +73,6 @@ const LeftSideBar = () => {
             #Tags
           </Link>
         </div>
-
-        <div className="link flex items-center gap-2 hover:bg-purple-500 hover:bg-opacity-10 p-2 rounded">
-          <div className="left">
-            <FontAwesomeIcon
-              icon={faPodcast}
-              size="lg"
-              className="text-[#FDDE55]"
-            />
-          </div>
-          <Link to="/" className="text-base">
-            Podcast
-          </Link>
-        </div>
-
-        <div className="link flex items-center gap-2 hover:bg-purple-500 hover:bg-opacity-10 p-2 rounded">
-          <div className="left">
-            <FontAwesomeIcon
-              icon={faVideo}
-              size="lg"
-              className="text-[#4B70F5]"
-            />
-          </div>
-          <Link to="/" className="text-base">
-            Videos
-          </Link>
-        </div>
       </div>
 
       {/* other */}
@@ -112,7 +86,7 @@ const LeftSideBar = () => {
           <div className="left">
             <span className="text-emoji">🔏</span>
           </div>
-          <Link to="/" className="text-base">
+          <Link to="/privacyPolicy" className="text-base">
             Privacy Policy
           </Link>
         </div>
@@ -121,7 +95,7 @@ const LeftSideBar = () => {
           <div className="left">
             <span className="text-emoji">👀</span>
           </div>
-          <Link to="/" className="text-base">
+          <Link to="/termsOfUse" className="text-base">
             Terms of use
           </Link>
         </div>

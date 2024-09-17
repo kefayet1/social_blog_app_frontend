@@ -81,8 +81,27 @@ const MiddleSide = () => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                token: JSON.parse(localStorage.getItem('loginInfo')).token,
+                token: JSON.parse(localStorage.getItem("loginInfo")).token,
               }),
+            }
+          );
+
+          const data = await response.json();
+
+          if (currentPage === 1) {
+            setPosts([...data.data]);
+          } else {
+            setPosts((prevData) => [...prevData, ...data.data]);
+          }
+          setLoading(false);
+        };
+        fetchHomePost();
+      } else if (fetchPostOptions === "top") {
+        const fetchHomePost = async () => {
+          const response = await fetch(
+            BaseUrl + `get_top_post?page=${currentPage}`,
+            {
+              method: "post"
             }
           );
 
@@ -152,26 +171,34 @@ const MiddleSide = () => {
               fetchPostOptions === "latest" ? "text-black font-bold" : ""
             }`}
             onClick={() => {
-              setFetchPostOptions("latest")
-              setPosts([])
-              setCurrentPage(1)
+              setFetchPostOptions("latest");
+              setPosts([]);
+              setCurrentPage(1);
             }}
           >
             Latest
           </button>
-          <button
-            className={`${
-              fetchPostOptions === "relevant" ? "text-black font-bold" : ""
-            }`}
-            onClick={() => setFetchPostOptions("relevant")}
-          >
-            Relevant
-          </button>
+          {localStorage.getItem("loginInfo") ? (
+            <button
+              className={`${
+                fetchPostOptions === "relevant" ? "text-black font-bold" : ""
+              }`}
+              onClick={() => setFetchPostOptions("relevant")}
+            >
+              Relevant
+            </button>
+          ) : (
+            ""
+          )}
           <button
             className={`${
               fetchPostOptions === "top" ? "text-black font-bold" : ""
             }`}
-            onClick={() => setFetchPostOptions("top")}
+            onClick={() => {
+              setFetchPostOptions("top");
+              setPosts([]);
+              setCurrentPage(1);
+            }}
           >
             Top
           </button>

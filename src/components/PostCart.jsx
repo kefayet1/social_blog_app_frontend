@@ -61,24 +61,18 @@ const PostCart = forwardRef((props, ref) => {
               ))}
             </div>
 
-            <div className="action flex items-center justify-between">
-              <div className="leftSide flex items-center gap-4">
+            <div className="action flex items-center justify-between w-full">
+              <div className="leftSide flex items-center justify-between w-full md:justify-normal gap-4">
                 <div className="reaction flex gap-1 p-2  rounded-md text-[#31343be8] hover:bg-slate-300">
                   <div className="emoji">
-                    <span className="mr-[1px] p-[2px] bg-slate-400 rounded-full">
+                    <span className="mr-[1px] p-[2px] bg-yellow-300 rounded-full">
                       👍
                     </span>
-                    <span className="mr-[1px] p-[2px] bg-slate-400 rounded-full">
+                    <span className="mr-[1px] p-[2px] bg-yellow-300 rounded-full">
                       ❤️
                     </span>
-                    <span className="mr-[1px] p-[2px] bg-slate-400 rounded-full">
-                      😲
-                    </span>
-                    <span className="mr-[1px] p-[2px] bg-slate-400 rounded-full">
+                    <span className="mr-[1px] p-[2px] bg-yellow-300 rounded-full">
                       🔥
-                    </span>
-                    <span className="mr-[1px] p-[2px] bg-slate-400 rounded-full">
-                      🙌
                     </span>
                   </div>
                   <div className="reactionCount">
@@ -99,7 +93,7 @@ const PostCart = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-              <div className="right flex items-end gap-6">
+              <div className="right hidden md:block md:flex items-center justify-end gap-6 w-full">
                 <div className="actionleft">
                   <span>2 min read</span>
                 </div>

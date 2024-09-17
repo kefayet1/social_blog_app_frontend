@@ -1,8 +1,14 @@
 import { useState } from "react";
-import { json, Link } from "react-router-dom";
+import { json, Link, useNavigate } from "react-router-dom";
 
 const ProfileDropDownMenu = ({ showMenu, setShowMenu }) => {
     const [ authDetails, setAuthDetails ] = useState(JSON.parse(localStorage.getItem("loginInfo")));
+    const navigate = useNavigate();
+
+    const logout = () =>{
+      localStorage.clear();
+      navigate("/");
+    }
 
   return (
     <div onClick={()=> setShowMenu(!showMenu)}  className=" absolute top-[3.5rem] md:right-[11rem] right-[1rem] lg:right-[1rem]" >
@@ -129,8 +135,8 @@ const ProfileDropDownMenu = ({ showMenu, setShowMenu }) => {
               </svg>
               <span>Following</span>
             </Link>
-            <a
-              href="/"
+            <Link
+              to="/create/profile"
               className="flex items-center leading-6 space-x-3 py-3 px-4 w-full text-lg text-gray-600 focus:outline-none hover:bg-gray-100 rounded-md"
             >
               <svg
@@ -151,9 +157,9 @@ const ProfileDropDownMenu = ({ showMenu, setShowMenu }) => {
                 <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
               </svg>
               <span>Profile Settings</span>
-            </a>
-            <a
-              href="/"
+            </Link>
+            <Link
+              to="/savePost"
               className="flex items-center leading-6 space-x-3 py-3 px-4 w-full text-lg text-gray-600 focus:outline-none hover:bg-gray-100 rounded-md"
             >
               <svg
@@ -176,11 +182,12 @@ const ProfileDropDownMenu = ({ showMenu, setShowMenu }) => {
                 <path d="M9 13h6"></path>
               </svg>
               <span>Save Post</span>
-            </a>
+            </Link>
           </nav>
         </div>
         <div aria-label="footer" className="pt-2">
           <button
+          onClick={logout}
             type="button"
             className="flex items-center space-x-3 py-3 px-4 w-full leading-6 text-lg text-gray-600 focus:outline-none hover:bg-gray-100 rounded-md"
           >

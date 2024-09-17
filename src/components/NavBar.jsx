@@ -6,24 +6,33 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Notification from "./Notification";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ProfileDropDownMenu from "./ProfileDropDownMenu";
+import { NavMenuContext } from "../context/NavMenuContext";
 const NavBar = () => {
   const [showNotification, setShowNotification] = useState(true);
   const [countUnSeenNotifi, setCountUnSeenNotifi] = useState(0);
-  const [ showMenu, setShowMenu ] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const { showLeftMenu, setShowLeftMenu } = useContext(NavMenuContext);
 
   return (
     <div className="border-b">
       <nav className="lg:w-[70%] w-full m-auto py-2 relative">
         {/* profile menu */}
-        {showMenu && <ProfileDropDownMenu setShowMenu={setShowMenu} showMenu={setShowMenu}/>}
+        {showMenu && (
+          <ProfileDropDownMenu
+            setShowMenu={setShowMenu}
+            showMenu={setShowMenu}
+          />
+        )}
         {/* notificaiton */}
-        <Notification
-          showNotification={showNotification}
-          setShowNotification={setShowNotification}
-          setCountUnSeenNotifi={setCountUnSeenNotifi}
-        />
+        {localStorage.getItem("loginInfo") && (
+          <Notification
+            showNotification={showNotification}
+            setShowNotification={setShowNotification}
+            setCountUnSeenNotifi={setCountUnSeenNotifi}
+          />
+        )}
         <div className="container ">
           <div className="nav_item flex items-center justify-between ">
             <div className="logoIcon flex items-center">
@@ -32,15 +41,16 @@ const NavBar = () => {
                 color="black"
                 size="2xl"
                 icon={faBars}
+                onClick={()=> setShowLeftMenu(!showLeftMenu)}
               />
               <Link className="w-[54px] ml-2 lg:ml-0">
                 <img
-                  src="https://media.dev.to/cdn-cgi/image/quality=100/https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
+                  src="https://logosandtypes.com/wp-content/uploads/2022/03/lazada.svg"
                   alt=""
                 />
               </Link>
             </div>
-            <div className="leftSide md:w-8/12 md:ml-2 ">
+            <div className="leftSide md:w-8/12 md:ml-2 border-2">
               <form className="hidden md:block">
                 <label
                   htmlFor="default-search"
@@ -49,7 +59,7 @@ const NavBar = () => {
                   Search
                 </label>
                 <div className="relative">
-                  <div className="group">
+                  <div className="group flex items-center h-full">
                     <svg
                       className="icon"
                       aria-hidden="true"
@@ -111,7 +121,10 @@ const NavBar = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="profile" onClick={()=> setShowMenu(!showMenu)}>
+                  <div
+                    className="profile"
+                    onClick={() => setShowMenu(!showMenu)}
+                  >
                     <img
                       src={
                         JSON.parse(localStorage.getItem("loginInfo"))

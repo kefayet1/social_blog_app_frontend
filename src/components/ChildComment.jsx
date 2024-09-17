@@ -116,7 +116,7 @@ const ChildComment = ({ comment, parentId, setShowParentInput, index }) => {
                                 />
                                 {comment?.name}
                             </p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <p className="text-sm hidden md:block text-gray-600 dark:text-gray-400">
                                 <time
                                     dateTime="2022-02-12"
                                     title="February 12th, 2022"
@@ -272,7 +272,7 @@ const ChildComment = ({ comment, parentId, setShowParentInput, index }) => {
                     </div>
                 </article>
             )}
-            <div className="pl-20 break-words">
+            <div className="pl-5 break-words">
                 {[...comment?.childComments]?.reverse()?.map((child, index) => (
                     <ChildComment
                         key={child.id}
