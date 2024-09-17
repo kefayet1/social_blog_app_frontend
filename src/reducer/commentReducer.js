@@ -173,11 +173,17 @@ const commentReducer = (state, action) => {
                             return {
                                 ...comment,
                                 inputShow: true,
+                                childComments: showAndHideInput(
+                                    comment.childComments
+                                ),
                             };
                         } else {
                             return {
                                 ...comment,
                                 inputShow: !comment.inputShow,
+                                childComments: showAndHideInput(
+                                    comment.childComments
+                                ),
                             };
                         }
                     } else if (comment.childComments) {
@@ -203,11 +209,17 @@ const commentReducer = (state, action) => {
                             return {
                                 ...comment,
                                 showMenu: true,
+                                childComments: showAndHideMenu(
+                                    comment.childComments
+                                ),
                             };
                         } else {
                             return {
                                 ...comment,
                                 showMenu: !comment.showMenu,
+                                childComments: showAndHideMenu(
+                                    comment.childComments
+                                ),
                             };
                         }
                     } else if (comment.childComments) {
