@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { json, Link, useNavigate } from "react-router-dom";
-
+import useImageLink from "../hooks/useImageLink";
 const ProfileDropDownMenu = ({ showMenu, setShowMenu }) => {
     const [ authDetails, setAuthDetails ] = useState(JSON.parse(localStorage.getItem("loginInfo")));
     const navigate = useNavigate();
@@ -19,7 +19,7 @@ const ProfileDropDownMenu = ({ showMenu, setShowMenu }) => {
             className="flex mr-auto items-center space-x-4"
           >
             <img
-              src="https://avatars.githubusercontent.com/u/499550?v=4"
+              src={useImageLink(JSON.parse(localStorage.getItem("loginInfo")).profile_image)}
               alt="avatar Evan You"
               className="w-16 h-16 shrink-0 rounded-full"
             />

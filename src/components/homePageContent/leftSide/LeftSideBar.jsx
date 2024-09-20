@@ -18,27 +18,28 @@ import {
 import { useEffect, useState } from "react";
 import BaseUrl from "../../../BaseUrl";
 
-const LeftSideBar = ({showLeftMenu}) => {
+const LeftSideBar = ({ showLeftMenu }) => {
   const [followingTags, setFollowingTags] = useState([]);
+  const [loginInfo, setLoginInfo] = useState(localStorage.getItem("loginInfo"));
 
   //in this function user can on home. which tag user is following
   useEffect(() => {
-    const fetchFollowingTags = async () => {
-      const response = await fetch(BaseUrl + "get_following_tags", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: JSON.parse(localStorage.getItem("loginInfo")).token,
-        }),
-      });
-      const data = await response.json();
-      console.log(data, "fetchtags");
-      setFollowingTags(data.data);
-    };
+    if (loginInfo) {
+      const fetchFollowingTags = async () => {
+        const response = await fetch(BaseUrl + "get_following_tags", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: JSON.parse(localStorage.getItem("loginInfo")).token,
+          }),
+        });
+        const data = await response.json();
+        console.log(data, "fetchtags");
+        setFollowingTags(data.data);
+      };
 
-    if (localStorage.getItem("loginInfo") !== "") {
       fetchFollowingTags();
     }
   }, []);
@@ -125,7 +126,7 @@ const LeftSideBar = ({showLeftMenu}) => {
       </div>
 
       {/* myTags */}
-      {localStorage.getItem("loginInfo") !== "" && (
+      {loginInfo !== "" && loginInfo && (
         <div className="myTags mb-3 px-2">
           <div className="top flex justify-between items-center">
             <div className="left">

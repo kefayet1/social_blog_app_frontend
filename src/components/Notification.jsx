@@ -50,19 +50,19 @@ const Notification = ({
     setTodayNotification(
       notification.filter(
         (notify) =>
-          notify.created_at.split(" ")[0] === day && notify.user_id === 3
+          notify.created_at?.split(" ")[0] === day && notify.user_id === 3
       )
     );
     setYesterDayNotification(
       notification.filter(
-        (notify) => notify.created_at.split(" ")[0] === yesterday
+        (notify) => notify.created_at?.split(" ")[0] === yesterday
       )
     );
     setOtherDaysNotification(
       notification.filter(
         (notify) =>
-          notify.created_at.split(" ")[0] !== yesterday &&
-          notify.created_at.split(" ")[0] !== day
+          notify.created_at?.split(" ")[0] !== yesterday &&
+          notify.created_at?.split(" ")[0] !== day
       )
     );
   }, [notification]);

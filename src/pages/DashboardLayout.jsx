@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, Link  } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 const DashboardLayout = () => {
@@ -26,9 +26,9 @@ const DashboardLayout = () => {
                     data-simplebar
                 >
                     {/* <!-- brand logo --> */}
-                    <a className="navbar-brand" href="./index.html">
+                    <Link className="navbar-brand">
                         <img src="./assets/images/brand/logo/logo.svg" alt="" />
-                    </a>
+                    </Link>
 
                     {/* <!-- navbar nav --> */}
                     <ul className="navbar-nav flex-col" id="sideNavbar">

@@ -1,13 +1,10 @@
-
-import { Color } from '@tiptap/extension-color'
-import ListItem from '@tiptap/extension-list-item'
-import TextStyle from '@tiptap/extension-text-style'
-import { EditorProvider } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import MenuBar from './MenuBar'
-import { useState } from 'react'
-
-
+import { Color } from "@tiptap/extension-color";
+import ListItem from "@tiptap/extension-list-item";
+import TextStyle from "@tiptap/extension-text-style";
+import { EditorProvider } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import MenuBar from "./MenuBar";
+import { useState } from "react";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -15,7 +12,7 @@ const extensions = [
   StarterKit.configure({
     bulletList: {
       keepMarks: true,
-      keepAttributes: false, 
+      keepAttributes: false,
     },
     orderedList: {
       keepMarks: true,
@@ -25,8 +22,7 @@ const extensions = [
       levels: [1, 2, 3], // Configure levels directly within StarterKit
     },
   }),
-  
-]
+];
 
 const content = "";
 `
@@ -58,13 +54,30 @@ display: none;
   <br />
   — Mom
 </blockquote>
-`
+`;
 const Tiptap = (props) => {
-  console.log(props.geminiContent, "tiptap gemini")
+  console.log(props.geminiContent, "tiptap gemini");
   return (
-    <EditorProvider slotBefore={<MenuBar handleArticleChange={props.handleArticleChange} handleGenerateText={props.handleGenerateText} geminiContent={props.geminiContent}  body={props.body}
-    edit={props.edit}/>} extensions={extensions} content={content} ></EditorProvider>
-  )
-}
+    <EditorProvider
+      slotBefore={
+        <MenuBar
+          handleArticleChange={props.handleArticleChange}
+          handleGenerateText={props.handleGenerateText}
+          geminiContent={props.geminiContent}
+          body={props.body}
+          edit={props.edit}
+        />
+      }
+      extensions={extensions}
+      content={content}
+      extensions={extensions}
+      content={content}
+      editorProps={{
+        attributes: {
+          class: 'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none border w-full md:h-[300px] h-[20px] overflow-auto p-5',
+        }}}
+    />
+  );
+};
 
-export default Tiptap
+export default Tiptap;
