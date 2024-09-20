@@ -65,7 +65,7 @@ const UserProfileTop = () => {
         <div className="div flex justify-end" onClick={handleFollowUser}>
           {profileDetails.is_follow ? (
             <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
-              Archive
+              Cancel 
             </button>
           ) : (
             <button className="inline-flex items-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-medium rounded-md">

@@ -8,8 +8,8 @@ const Login = () => {
   const { login } = useContext(AuthContext);
   const [data, setData] = useState(null);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "lacey.jacobs@gmail.com",
+    password: "12345678",
   });
 
   if (login) {
