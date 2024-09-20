@@ -3,6 +3,7 @@ import BaseUrl from "../BaseUrl";
 import ChildComment from "./ChildComment";
 import { CommentContext } from "../context/CommentContext";
 import { useNavigate } from "react-router-dom";
+import useImageLink from "../hooks/useImageLink";
 
 const Comment = ({ postId }) => {
     const [comments, setComments] = useState([]);
@@ -149,8 +150,7 @@ const Comment = ({ postId }) => {
                                 <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
                                     <img
                                         className="mr-2 w-6 h-6 rounded-full"
-                                        src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                                        alt="Michael Gough"
+                                        src={useImageLink(comment.profile_image)}
                                     />
                                     {comment?.name}
                                 </p>

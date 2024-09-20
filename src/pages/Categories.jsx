@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import CategoriesTable from "../components/CategoriesTable";
 import { AuthContext } from "../context/AuthContext";
 import { CategoryContext } from "../context/CategoryContext";
+import BaseUrl from "../BaseUrl";
 
 const Categories = () => {
     const newFormData = new FormData();
@@ -89,7 +90,7 @@ const Categories = () => {
         newFormData.append("token", JSON.parse(login).token);
         try {
             const response = await fetch(
-                "http://127.0.0.1:8000/api/create_tag",
+                `${BaseUrl}create_tag`,
                 {
                     method: "POST",
                     body: newFormData,
@@ -144,7 +145,7 @@ const Categories = () => {
         newFormData.append("token", JSON.parse(login).token);
         try {
             const response = await fetch(
-                "http://127.0.0.1:8000/api/update_tag",
+                `${BaseUrl}update_tag`,
                 {
                     method: "POST",
                     body: newFormData,

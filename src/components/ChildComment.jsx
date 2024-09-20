@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { CommentContext } from "../context/CommentContext";
 import BaseUrl from "../BaseUrl";
 import { useNavigate } from "react-router-dom";
+import useImageLink from "../hooks/useImageLink";
 
 const ChildComment = ({ comment, parentId, setShowParentInput, index }) => {
     const [openMenu, setOpenMenu] = useState(false);
@@ -36,20 +37,27 @@ const ChildComment = ({ comment, parentId, setShowParentInput, index }) => {
                 body: JSON.stringify({
                     postId: comment.post_id,
                     parentId: comment.id,
-                    userId: 2,
+                    token: JSON.parse(localStorage.getItem("loginInfo")).token,
                     comment: inputComment,
                 }),
             });
 
             const data = await response.json();
-            dispatchComment({
-                type: "REPLY_CHILD_COMMENT",
-                payload: {
-                    parenId: parentId,
-                    postId: comment.id,
-                    inputComment: data,
-                },
-            });
+            console.warn(data);
+            if(data){
+                dispatchComment({
+                    type: "REPLY_CHILD_COMMENT",
+                    payload: {
+                        parenId: parentId,
+                        postId: comment.id,
+                        inputComment: {
+                            ...data,
+                            profile_image: JSON.parse(localStorage.getItem("loginInfo")).profile_image
+                        },
+                        
+                    },
+                });
+            }
             toggleChildRelyInput(comment);
         } catch (error) {
             console.log(error);
@@ -97,8 +105,6 @@ const ChildComment = ({ comment, parentId, setShowParentInput, index }) => {
         toggleMenu(comment);
     };
 
-    console.log(index, "child index");
-
     return (
         <>
             {comment.parent_id !== null && (
@@ -111,7 +117,7 @@ const ChildComment = ({ comment, parentId, setShowParentInput, index }) => {
                             <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
                                 <img
                                     className="mr-2 w-6 h-6 rounded-full"
-                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                    src={useImageLink(comment.profile_image)}
                                     alt="Jese Leos"
                                 />
                                 {comment?.name}

@@ -112,7 +112,7 @@ const commentReducer = (state, action) => {
             });
 
         case "REPLY_PARENT_COMMENT":
-            console.log(action.payload, "payload");
+            console.warn(action.payload, "payload");
             return state.map((comment) => {
                 if (comment.id === action.payload.parentId) {
                     return {
